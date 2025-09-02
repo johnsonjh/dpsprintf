@@ -848,6 +848,7 @@ DPS_SPRINTF_DECORATE (vsprintfcb) (DPS_S_SPRINTFCB *callback, void *user,
   {
     int32_t fw, pr, tz;
     uint32_t fl;
+    char const *sn = NULL;
 
 #  define dps__chk_cb_bufL(bytes)                                             \
   {                                                                           \
@@ -1096,7 +1097,6 @@ DPS_SPRINTF_DECORATE (vsprintfcb) (DPS_S_SPRINTFCB *callback, void *user,
       long double fvL;
 #  endif
       int32_t dp;
-      char const *sn;
 
     case 's':
       s = va_arg (va, char *);
@@ -2232,7 +2232,7 @@ dps__clamp_callback (const char *buf, void *user, int len)
 
   if (len)
   {
-    if (buf != c->buf)
+    if (buf && (buf != c->buf))
     {
       const char *s, *se;
       char *d;
@@ -3950,6 +3950,15 @@ dps__real_to_str (char const **start, uint32_t *len, char *out,
       bits /= r;
     }
   noround:;
+  }
+
+  if (bits == 0)
+  {
+    *decimal_pos = 1;
+    *start = out;
+    out[0] = '0';
+    *len = 1;
+    return ng;
   }
 
   if (bits)
