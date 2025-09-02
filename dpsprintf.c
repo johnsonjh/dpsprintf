@@ -84,14 +84,14 @@ typedef char *DPS_S_SPRINTFCB (const char *buf, void *user, int len);
 #    undef fprintf
 #    undef printf
 
-#    define vsprintf  dps_vsprintf
-#    define vsnprintf dps_vsnprintf
-#    define sprintf   dps_sprintf
-#    define snprintf  dps_snprintf
-#    define vfprintf  dps_vfprintf
-#    define vprintf   dps_vprintf
-#    define fprintf   dps_fprintf
-#    define printf    dps_printf
+#    define vsprintf  dps_vsprintf  //-V1059
+#    define vsnprintf dps_vsnprintf //-V1059
+#    define sprintf   dps_sprintf   //-V1059
+#    define snprintf  dps_snprintf  //-V1059
+#    define vfprintf  dps_vfprintf  //-V1059
+#    define vprintf   dps_vprintf   //-V1059
+#    define fprintf   dps_fprintf   //-V1059
+#    define printf    dps_printf    //-V1059
 #   endif
 #  endif
 
@@ -1366,7 +1366,7 @@ DPS_SPRINTF_DECORATE (vsprintfcb) (DPS_S_SPRINTFCB *callback, void *user,
       lead[0] += 2;
       *s++ = h[(n64 >> 60) & 15];
       n64 <<= 4;
-      if (origpr >= 0 || (origpr < 0 && n64 != 0)
+      if (origpr >= 0 || (origpr < 0 && n64 != 0) //-V728
           || (fl & DPS_S__LEADING_0X))
         *s++ = dps__period;
       sn = s;
@@ -1821,7 +1821,7 @@ DPS_SPRINTF_DECORATE (vsprintfcb) (DPS_S_SPRINTFCB *callback, void *user,
         pr = sizeof (void *) * 2;
       fl &= ~DPS_S__LEADINGZERO;
 #  endif
-      /* fall through */
+      /*FALLTHRU*/ /* fall through */ /* fallthrough */
 
     case 'X':
     case 'x':
@@ -1881,7 +1881,7 @@ DPS_SPRINTF_DECORATE (vsprintfcb) (DPS_S_SPRINTFCB *callback, void *user,
       fl &= ~DPS_S__LEADINGPLUS;
       fl &= ~DPS_S__LEADINGSPACE;
 #  endif
-      /* fall through */
+      /*FALLTHRU*/ /* fall through */ /* fallthrough */
 
     case 'i':
     case 'd':
