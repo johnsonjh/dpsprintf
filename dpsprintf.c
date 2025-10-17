@@ -861,7 +861,7 @@ dps__lead_sign (uint32_t fl, char *sign)
 
 #  if defined (NEED_RINTL)
 static long double
-rintl(long double x)
+xrintl(long double x)
 {
   if (isnan((double)x) || isinf((double)x))
     return x;
