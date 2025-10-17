@@ -95,6 +95,14 @@ typedef char *DPS_S_SPRINTFCB (const char *buf, void *user, int len);
 #   endif
 #  endif
 
+#  if (defined (Macintosh) && defined (macintosh) && defined (pascal) && \
+      (defined (__m68k__) || defined (__ppc__)) && !defined (unix)) || \
+      defined (Retro68) || defined (NEED_RINTL)
+#   if !defined (NEED_RINTL) /* Provide our own rintl function */
+#    define NEED_RINTL
+#   endif
+#  endif
+
 int  DPS_SPRINTF_DECORATE (vsprintf)
        (char *buf, char const *fmt, va_list va);
 int  DPS_SPRINTF_DECORATE (vsnprintf)
@@ -850,6 +858,27 @@ dps__lead_sign (uint32_t fl, char *sign)
     sign[1] = ' ';
   }
 }
+
+#  if defined (NEED_RINTL)
+static long double
+rintl(long double x)
+{
+  if (isnan((double)x) || isinf((double)x))
+    return x;
+
+  long double f = (long double)floor((double)x);
+  long double frac = x - f;
+
+  if (frac < 0.5L)
+    return f;
+
+  if (frac > 0.5L)
+    return f + 1.0L;
+
+  return (fmod(f, 2.0L) == 0.0L) ? f : f + 1.0L;
+}
+#   define rintl xrintl
+#  endif
 
 inline int
 DPS_SPRINTF_DECORATE (vsprintfcb) (DPS_S_SPRINTFCB *callback, void *user,
