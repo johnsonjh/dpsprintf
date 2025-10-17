@@ -810,6 +810,26 @@ DPS_SPRINTF_DECORATE (set_separators) (char pcomma, char pperiod)
 #  define DPS_S__QUARTWIDTH     8192
 #  define DPS_S__L             16384
 
+#  if defined(DPS_SPRINTF_LD)
+static inline long double
+dps__frexpl (long double value, int32_t *e)
+{
+  int exp;
+  long double result = frexpl (value, &exp);
+  *e = exp;
+  return result;
+}
+#  endif
+
+static inline double
+dps__frexp (double value, int32_t *e)
+{
+  int exp;
+  double result = frexp (value, &exp);
+  *e = exp;
+  return result;
+}
+
 void
 dps__lead_sign (uint32_t fl, char *sign)
 {
@@ -1284,7 +1304,7 @@ DPS_SPRINTF_DECORATE (vsprintfcb) (DPS_S_SPRINTFCB *callback, void *user,
       }
       s = num + 64;
       dps__lead_sign (fl, lead);
-      long double dmant = frexpl (fvL, &dp);
+      long double dmant = dps__frexpl (fvL, &dp);
       n64 = (uint64_t)rintl (ldexpl (dmant, 64));
       if (fvL != 0)
         dp -= 4;
@@ -1300,7 +1320,7 @@ DPS_SPRINTF_DECORATE (vsprintfcb) (DPS_S_SPRINTFCB *callback, void *user,
       s = num + 64;
       dps__lead_sign (fl, lead);
       double dmant
-          = frexp (fv, &dp);
+          = dps__frexp (fv, &dp);
       n64 = (uint64_t)rint (ldexp (
           dmant, 64));
       if (fv != 0)
