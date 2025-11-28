@@ -8,7 +8,7 @@
  * Copyright (c) 2015 Jeff Roberts
  * Copyright (c) 2017 Sean Barrett
  * Copyright (c) 2020 Peter Miller
- * Copyright (c) 2020-2022 Jeffrey H. Johnson <trnsz@pobox.com>
+ * Copyright (c) 2020-2022 Jeffrey H. Johnson <johnsonjh.dev@gmail.com>
  * Copyright (c) 2021-2023 The DPS8M Development Team
  *
  * Permission is hereby granted, free of charge, to any person obtaining
